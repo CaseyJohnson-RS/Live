@@ -585,6 +585,19 @@ body::after {
   background-color: var(--c-surface);
   box-shadow: 0 0 12px rgb(var(--c-accent-rgb) / 0.06);
 }
+/* Примечание — светом экрана, а не синим цветом Material */
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border-color: var(--c-accent);
+}
+.md-typeset .note > .admonition-title,
+.md-typeset .note > summary {
+  background-color: rgb(var(--c-accent-rgb) / 0.1);
+}
+.md-typeset .note > .admonition-title::before,
+.md-typeset .note > summary::before {
+  background-color: var(--c-accent);
+}
 .md-typeset .admonition.warning,
 .md-typeset details.warning {
   border-color: var(--c-danger);
@@ -672,4 +685,13 @@ body::after {
 /* Отступ перед подвалом */
 .md-content:has(.intro) .md-content__inner {
   padding-bottom: 5rem;
+}
+
+/* Глоссарий: определение прижато к термину, между терминами — зазор */
+.md-typeset dl dt {
+  margin-top: 1.2em;
+}
+.md-typeset dl dd {
+  margin-top: 0.2em;
+  margin-bottom: 0;
 }

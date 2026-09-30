@@ -3,6 +3,10 @@ site_description: Правила игры Live
 site_url: https://caseyjohnson-rs.github.io/Live/
 copyright: © 2026 Руслан Шамухаметов. Все права защищены.
 
+# Битый якорь (например, в глоссарии) должен ронять сборку в --strict
+validation:
+  anchors: warn
+
 theme:
   name: material
   language: ru
@@ -63,6 +67,10 @@ nav:
   - Главная: index.md
   - Правила:
       - rules/index.md
+      - rules/table.md
+      - rules/shot.md
+      - rules/round.md
+      - rules/match.md
       - Предметы: rules/items/index.md
       - Глоссарий: rules/glossary.md
   - Блог: blog/index.md
