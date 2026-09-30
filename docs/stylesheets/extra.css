@@ -813,3 +813,13 @@ body::after {
   margin-top: 0.2em;
   margin-bottom: 0;
 }
+
+/* Контакты в подвале: сталь, при наведении загораются неоном */
+.md-social__link svg {
+  fill: var(--c-text-2);
+  transition: fill 0.2s, filter 0.2s;
+}
+.md-social__link:hover svg {
+  fill: var(--c-accent);
+  filter: drop-shadow(0 0 6px rgb(var(--c-accent-rgb) / 0.7));
+}

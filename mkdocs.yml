@@ -1,7 +1,7 @@
 site_name: Live
 site_description: Правила игры Live
 site_url: https://caseyjohnson-rs.github.io/Live/
-copyright: © 2026 Руслан Шамухаметов. Все права защищены.
+copyright: © 2026 Casey Johnson. Все права защищены.
 
 # Битый якорь (например, в глоссарии) должен ронять сборку в --strict
 validation:
@@ -33,6 +33,17 @@ theme:
 extra:
   # Без строки «Made with Material for MkDocs» в подвале
   generator: false
+  # Контакты — иконками в подвале, рядом с копирайтом
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/CaseyJohnson-RS
+      name: GitHub
+    - icon: fontawesome/brands/telegram
+      link: https://t.me/casey_johnson
+      name: Telegram
+    - icon: fontawesome/solid/envelope
+      link: mailto:casey.johnson.r@yandex.ru
+      name: casey.johnson.r@yandex.ru
 
 extra_css:
   - stylesheets/extra.css
