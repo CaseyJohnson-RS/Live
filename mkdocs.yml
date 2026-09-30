@@ -1,0 +1,68 @@
+site_name: Live
+site_description: Правила игры Live
+site_url: https://caseyjohnson-rs.github.io/Live/
+copyright: © 2026 Руслан Шамухаметов. Все права защищены.
+
+theme:
+  name: material
+  language: ru
+  font:
+    text: Exo 2
+    code: IBM Plex Mono
+  logo: logo.svg
+  favicon: favicon.svg
+  # Только тёмная схема: палитра «Бутылочное стекло» — в stylesheets/extra.css
+  # custom — чтобы встроенные цвета Material не перебивали наши роли
+  palette:
+    scheme: slate
+    primary: custom
+    accent: custom
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - content.code.copy
+
+extra:
+  # Без строки «Made with Material for MkDocs» в подвале
+  generator: false
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search:
+      lang: ru
+
+markdown_extensions:
+  - toc:
+      permalink: true
+      # Стандартный slugify выбрасывает кириллицу — якоря вида #выстрел ломаются
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - tables
+  - admonition
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Главная: index.md
+  - Правила:
+      - rules/index.md
+      - Предметы: rules/items/index.md
+      - Глоссарий: rules/glossary.md
+  - Блог: blog/index.md

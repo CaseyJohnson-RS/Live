@@ -1,0 +1,17 @@
+[project]
+name = "live"
+version = "0.1.0"
+description = "Правила игры Live"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+docs = [
+    "mkdocs>=1.6,<2",
+    "mkdocs-material>=9.5",
+]
+
+[tool.uv]
+package = false
+default-groups = ["docs"]
