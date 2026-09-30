@@ -220,6 +220,124 @@ body::after {
   min-height: calc(100svh - 6rem);
   margin-bottom: 2rem;
 }
+
+/* ---------- Кинескоп: люминофор ----------
+   Первый экран — экран старого монитора. Его выдают:
+   - свечение: бирюзовый люминофор ярче в центре, к краям гаснет;
+   - выпуклость: SVG-фильтр #crt-barrel (в index.md) гнёт изображение по
+     карте assets/crt/barrel-map.png — центр выдувается к зрителю, края
+     поджимаются, строки развёртки выгибаются дугами. Гнётся только
+     изображение (.crt__image); корпус и затемнение краёв ровные.
+     Где фильтр не поддержан (Safari), экран просто плоский;
+   - развёртка: частые строки и медленная светлая полоса;
+   - мерцание: яркость изображения изредка проседает, корпус — нет. */
+.md-typeset .crt__defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.md-typeset .intro.crt {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: block;
+  min-height: 0;
+  margin: 1.4rem 1rem 2.5rem;
+  padding: 0;
+  border-radius: 7% / 10%;
+  background: #030909;
+  box-shadow:
+    /* корпус: тёмный пластик и светлая кромка */
+    0 0 0 0.9rem #0c1616,
+    0 0 0 1rem var(--c-border),
+    /* монитор светится в темноте зала */
+    0 0 3rem 1rem rgb(var(--c-accent-rgb) / 0.1),
+    0 1.5rem 3rem rgb(0 0 0 / 0.6);
+}
+/* Изображение на стекле: свечение люминофора, строки развёртки, текст —
+   всё это гнётся фильтром */
+.md-typeset .crt__image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* место под рамку корпуса и отступ от шапки */
+  min-height: calc(100vh - 11rem);
+  min-height: calc(100svh - 11rem);
+  padding: 3rem 2rem;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 2px, rgb(0 0 0 / 0.35) 2px 3px),
+    radial-gradient(ellipse at 50% 45%, #12393b 0%, #0a2021 45%, #030909 100%);
+  filter: url(#crt-barrel);
+}
+/* Глубина: края стекла уходят в темноту — поверх изображения */
+.md-typeset .intro.crt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 5rem 1.2rem rgb(0 0 0 / 0.8);
+}
+/* Полоса развёртки: светлый пояс медленно ползёт сверху вниз.
+   Высота — 30% экрана, путь от -100% до 340% своей высоты: из-за верхнего
+   края до ухода за нижний */
+.md-typeset .intro.crt::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(var(--c-accent-rgb) / 0.04),
+    transparent
+  );
+  animation: crt-roll 6s linear infinite;
+}
+@keyframes crt-roll {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(340%); }
+}
+/* Мерцание: проседает изображение, а не корпус */
+.md-typeset .crt__image > * {
+  animation: crt-flicker 3.2s infinite;
+}
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  7%  { opacity: 0.93; }
+  9%  { opacity: 1; }
+  43% { opacity: 0.97; }
+  45% { opacity: 1; }
+  71% { opacity: 0.9; }
+  72% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .md-typeset .intro.crt::before,
+  .md-typeset .crt__image > * {
+    animation: none;
+  }
+}
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .intro.crt {
+    margin: 0.8rem 0.4rem 2rem;
+    border-radius: 6% / 5%;
+    box-shadow:
+      0 0 0 0.5rem #0c1616,
+      0 0 0 0.6rem var(--c-border),
+      0 1rem 2rem rgb(0 0 0 / 0.6);
+  }
+  .md-typeset .crt__image {
+    padding: 2rem 1rem;
+  }
+  .md-typeset .intro.crt::after {
+    box-shadow: inset 0 0 3rem 0.8rem rgb(0 0 0 / 0.8);
+  }
+}
 .md-typeset .hero {
   text-align: center;
   margin: 0 0 3rem;
@@ -232,7 +350,7 @@ body::after {
 }
 /* Без своего h1 Material вставляет заголовок из названия страницы.
    Прячем его с экрана, но оставляем для поиска и чтения с экрана */
-.md-content__inner > h1:has(+ .intro) {
+.md-content__inner > h1:has(~ .intro) {
   position: absolute;
   width: 1px;
   height: 1px;

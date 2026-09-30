@@ -5,7 +5,16 @@ hide:
   - footer
 ---
 
-<div class="intro" markdown>
+<svg class="crt__defs" aria-hidden="true">
+<filter id="crt-barrel" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+<feImage href="assets/crt/barrel-map.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="map"/>
+<feDisplacementMap in="SourceGraphic" in2="map" scale="0.1" xChannelSelector="R" yChannelSelector="G"/>
+</filter>
+</svg>
+
+<div class="intro crt" markdown>
+
+<div class="crt__image" markdown>
 
 <div class="hero" markdown>
 
@@ -21,6 +30,8 @@ hide:
 <p>Каждый хочет обмануть.</p>
 <p class="teaser__call">Наблюдай. Считай. Рискуй.</p>
 <p class="teaser__coda">Удачи.</p>
+</div>
+
 </div>
 
 </div>
