@@ -242,7 +242,9 @@ body::after {
   overflow: hidden;
   display: block;
   min-height: 0;
-  margin: 1.4rem 1rem 2.5rem;
+  /* кинескоп не во всю колонку: ограничен по ширине и стоит по центру */
+  max-width: 44rem;
+  margin: 2rem auto 3rem;
   padding: 0;
   border-radius: 7% / 10%;
   background: #030909;
@@ -261,8 +263,9 @@ body::after {
   flex-direction: column;
   justify-content: center;
   /* место под рамку корпуса и отступ от шапки */
-  min-height: calc(100vh - 11rem);
-  min-height: calc(100svh - 11rem);
+  /* по высоте — не больше 30rem, на низком окне ещё меньше */
+  min-height: min(calc(100vh - 14rem), 30rem);
+  min-height: min(calc(100svh - 14rem), 30rem);
   padding: 3rem 2rem;
   background:
     repeating-linear-gradient(to bottom, transparent 0 2px, rgb(0 0 0 / 0.35) 2px 3px),
@@ -350,7 +353,7 @@ body::after {
 }
 /* Без своего h1 Material вставляет заголовок из названия страницы.
    Прячем его с экрана, но оставляем для поиска и чтения с экрана */
-.md-content__inner > h1:has(~ .intro) {
+.md-content__inner > h1:has(~ .stage) {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -396,6 +399,48 @@ body::after {
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
+/* Статус проекта — экранная индикация в левом верхнем углу, как «PLAY»
+   на старом видеомониторе. Лежит внутри .crt__image: фильтр делает его
+   опорным блоком, и метка гнётся вместе с изображением.
+   Огонёк cyan, а не красный: красное здесь — только кровь и запись */
+.md-typeset .status {
+  position: absolute;
+  top: 2.4rem;
+  left: 3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--c-text-2);
+  font-family: var(--md-code-font-family);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .status {
+    top: 1.4rem;
+    left: 1.6rem;
+  }
+  /* на узком экране метке не хватает угла — освобождаем ей строку */
+  .md-typeset .crt__image {
+    padding-top: 3.6rem;
+  }
+}
+.md-typeset .status__dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--c-accent);
+  box-shadow: 0 0 6px rgb(var(--c-accent-rgb) / 0.9);
+  animation: rec-pulse 2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .md-typeset .status__dot {
+    animation: none;
+  }
+}
+
 @media screen and (max-width: 30em) {
   .hero__logo img { height: 3.6rem; }
   .hero__rec { width: 1.8rem; height: 1.8rem; }
@@ -408,7 +453,7 @@ body::after {
 }
 .md-typeset .teaser p {
   margin: 0.35em 0;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   color: var(--c-text);
 }
 /* Призыв — главная строка: неон экрана */
@@ -601,13 +646,24 @@ body::after {
 .md-typeset .grid.cards hr {
   border-color: var(--c-border);
 }
-.md-typeset .grid.cards .lg {
-  height: 1.6em;
-  width: 1.6em;
-  vertical-align: -0.4em;
-  margin-right: 0.3em;
+/* Эмблема карточки — фишка Live, в центре иконка цветом экрана */
+.md-typeset .grid.cards .chip-emblem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6em;
+  height: 3.6em;
+  margin-right: 0.7em;
+  vertical-align: middle;
+  background: url("../assets/chip.svg") center / contain no-repeat;
   color: var(--c-accent);
-  filter: drop-shadow(0 0 4px rgb(var(--c-accent-rgb) / 0.6));
+  filter: drop-shadow(0 0 6px rgb(var(--c-accent-rgb) / 0.3));
+}
+.md-typeset .grid.cards .chip-emblem svg {
+  width: 1.45em;
+  height: 1.45em;
+  max-height: none;
+  filter: drop-shadow(0 0 3px rgb(var(--c-accent-rgb) / 0.7));
 }
 
 /* ================================================================
@@ -761,6 +817,7 @@ body::after {
 /* Цепочка «Назад / Вперёд» — только внутри правил: из них не выводим
    ни на главную, ни в блог */
 .md-footer__link--prev[aria-label$=": Главная"],
+.md-footer__link--prev[aria-label$=": Блог"],
 .md-footer__link--next[aria-label$=": Блог"] {
   display: none;
 }
@@ -775,7 +832,7 @@ body::after {
   margin-top: 1.8rem;
 }
 .md-content:has(.intro) .md-typeset .hero {
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 .md-content:has(.intro) .md-typeset .teaser p {
   margin: 0.6em 0;
@@ -822,4 +879,339 @@ body::after {
 .md-social__link:hover svg {
   fill: var(--c-accent);
   filter: drop-shadow(0 0 6px rgb(var(--c-accent-rgb) / 0.7));
+}
+
+/* Кнопки: контур экрана; главная — залита светом экрана */
+.md-typeset .md-button {
+  margin: 0.3rem 0.4rem 0.3rem 0;
+  border: 1px solid var(--c-accent);
+  border-radius: 0.2rem;
+  color: var(--c-accent);
+  font-family: var(--heading-font);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.md-typeset .md-button--primary {
+  background-color: var(--c-accent);
+  color: var(--c-bg);
+}
+.md-typeset .md-button:is(:hover, :focus) {
+  border-color: var(--c-accent);
+  background-color: var(--c-accent);
+  color: var(--c-bg);
+  box-shadow: 0 0 16px rgb(var(--c-accent-rgb) / 0.5);
+  text-shadow: none;
+}
+
+/* ================================================================
+   Правила: элементы для чтения
+   ================================================================ */
+
+/* Эпиграф главы — голос тизера с главной, вполголоса */
+.md-typeset .epigraph {
+  margin: -0.6rem 0 2rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--c-accent-2);
+  border-radius: 0;
+  color: var(--c-text-2);
+  font-style: italic;
+}
+
+/* Совет — ультрафиолетом: подсказка игроку, не правило */
+.md-typeset .admonition.tip,
+.md-typeset details.tip {
+  border-color: var(--c-accent-2);
+}
+.md-typeset .tip > .admonition-title,
+.md-typeset .tip > summary {
+  background-color: rgb(var(--c-accent-2-rgb) / 0.1);
+}
+.md-typeset .tip > .admonition-title::before,
+.md-typeset .tip > summary::before {
+  background-color: var(--c-accent-2);
+}
+
+/* Иллюстрация для настроения. Пока картинки нет — экран «нет сигнала»:
+     <figure class="illus"><div class="illus__empty"></div><figcaption>…</figcaption></figure>
+   Картинка появилась — вместо div ставится <img src="…" alt="…"> */
+/* у Material figure — flex по ширине содержимого и по центру; нам нужна
+   полная ширина колонки */
+.md-typeset figure.illus {
+  display: block;
+  width: 100%;
+  margin: 2rem 0;
+  max-width: none;
+}
+.md-typeset .illus img,
+.md-typeset .illus__empty {
+  display: block;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  border: 1px solid var(--c-border);
+  border-radius: 0.2rem;
+}
+.md-typeset .illus__empty {
+  position: relative;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 2px, rgb(0 0 0 / 0.3) 2px 3px),
+    radial-gradient(ellipse at center, #0f2e2f 0%, #061213 70%);
+  box-shadow: inset 0 0 3rem rgb(0 0 0 / 0.7);
+}
+.md-typeset .illus__empty::after {
+  content: "нет сигнала";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-text-3);
+  font-family: var(--md-code-font-family);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.md-typeset .illus figcaption {
+  max-width: none;
+  margin-top: 0.5rem;
+  color: var(--c-text-3);
+  font-size: 0.65rem;
+  font-style: normal;
+  text-align: left;
+}
+
+/* Каморный ряд на схеме: кружки-каморы, номер места — под каморой,
+   вес — над ней (data-w), номер — data-n */
+.md-typeset .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.6rem 0.6rem;
+  margin: 1.5rem 0 0.4rem;
+  padding: 1.6rem 1rem 1.8rem;
+  border: 1px solid var(--c-border);
+  border-radius: 0.2rem;
+  background-color: rgb(10 28 28 / 0.6);
+}
+.md-typeset .row--weights {
+  padding-top: 2.4rem;
+}
+.md-typeset .ch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 2px solid var(--c-text-2);
+  border-radius: 50%;
+  color: var(--c-text-2);
+  font-family: var(--md-code-font-family);
+  font-size: 0.75rem;
+}
+.md-typeset .ch::after {
+  content: attr(data-n);
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  color: var(--c-text-3);
+  font-size: 0.55rem;
+}
+.md-typeset .ch[data-w]::before {
+  content: "×" attr(data-w);
+  position: absolute;
+  bottom: calc(100% + 0.35rem);
+  color: var(--c-accent);
+  font-size: 0.6rem;
+  text-shadow: 0 0 6px rgb(var(--c-accent-rgb) / 0.6);
+}
+/* отстреляна, была пустой */
+.md-typeset .ch--blank {
+  border-style: dashed;
+  border-color: var(--c-text-3);
+  color: var(--c-text-3);
+}
+/* отстреляна, был патрон */
+.md-typeset .ch--hit {
+  border-color: var(--c-danger);
+  background-color: rgb(var(--c-danger-rgb) / 0.15);
+  color: var(--c-danger);
+  box-shadow: 0 0 10px rgb(var(--c-danger-rgb) / 0.4);
+}
+/* камора, о которой идёт речь */
+.md-typeset .ch--focus {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  box-shadow: 0 0 10px rgb(var(--c-accent-rgb) / 0.4);
+}
+.md-typeset .row__caption {
+  margin: 0 0 1.5rem;
+  color: var(--c-text-3);
+  font-size: 0.65rem;
+  text-align: center;
+}
+
+/* Класс предмета — метка цветом класса */
+.md-typeset .cls {
+  display: inline-block;
+  padding: 0.05rem 0.45rem;
+  border: 1px solid currentColor;
+  border-radius: 0.2rem;
+  font-family: var(--md-code-font-family);
+  font-size: 0.55rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.md-typeset .cls--common { color: var(--c-item-common); }
+.md-typeset .cls--rare { color: var(--c-item-rare); }
+.md-typeset .cls--ceiling {
+  color: var(--c-item-ceiling);
+  text-shadow: 0 0 6px rgb(var(--c-accent-2-rgb) / 0.6);
+}
+/* в заголовках метка не должна наследовать неон заголовка */
+.md-typeset h3 .cls {
+  margin-left: 0.4rem;
+  text-shadow: none;
+}
+
+/* Устройство игры: вложенные рамки — игра ⊃ партия ⊃ раунд ⊃ ход */
+.md-typeset .nest {
+  margin: 1.5rem 0;
+}
+.md-typeset .nest__box {
+  padding: 0.8rem 1rem 1rem;
+  border: 1px solid var(--c-border);
+  border-radius: 0.2rem;
+  background-color: rgb(10 28 28 / 0.55);
+}
+.md-typeset .nest__box .nest__box {
+  margin-top: 0.8rem;
+}
+.md-typeset .nest__name {
+  display: block;
+  color: var(--c-accent);
+  font-family: var(--heading-font);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.md-typeset .nest__text {
+  display: block;
+  color: var(--c-text-2);
+  font-size: 0.7rem;
+}
+
+/* Название, где регистр — часть шутки (ХАХхаахХАх), не приводим к заглавным */
+.md-typeset .keep-case {
+  text-transform: none;
+}
+
+/* ================================================================
+   Глитч кинескопа: слабый, но регулярный — раз в 7 секунд экран
+   дёргается, контуры расслаиваются, по стеклу проскакивает полоса помех.
+   Расслоение — cyan и ультрафиолет: красное здесь только кровь.
+   Фильтр бочки повторяется в каждом кадре, иначе анимация его сбросит
+   ================================================================ */
+.md-typeset .crt__image {
+  position: relative;
+  animation: crt-glitch 7s steps(1, end) infinite;
+}
+@keyframes crt-glitch {
+  0%, 40%, 41%, 93%, 97%, 100% {
+    transform: none;
+    filter: url(#crt-barrel);
+  }
+  40.5% {
+    transform: translateX(2px);
+    filter: url(#crt-barrel);
+  }
+  94% {
+    transform: translateX(-4px) skewX(-1.5deg);
+    filter: url(#crt-barrel)
+      drop-shadow(2px 0 rgb(var(--c-accent-2-rgb) / 0.6))
+      drop-shadow(-2px 0 rgb(var(--c-accent-rgb) / 0.6));
+  }
+  95% {
+    transform: translateX(3px);
+    filter: url(#crt-barrel)
+      drop-shadow(-3px 0 rgb(var(--c-accent-2-rgb) / 0.5))
+      drop-shadow(3px 0 rgb(var(--c-accent-rgb) / 0.5));
+  }
+  96% {
+    transform: translateX(-1px) skewX(1deg);
+    filter: url(#crt-barrel)
+      drop-shadow(1px 0 rgb(var(--c-accent-2-rgb) / 0.6))
+      drop-shadow(-1px 0 rgb(var(--c-accent-rgb) / 0.6));
+  }
+}
+/* Полоса помех: видна только в кадрах сбоя, каждый раз на новой высоте */
+.md-typeset .crt__image::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30%;
+  height: 4%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(var(--c-accent-rgb) / 0.14),
+    rgb(var(--c-accent-2-rgb) / 0.2),
+    transparent
+  );
+  mix-blend-mode: screen;
+  animation: crt-glitch-band 7s steps(1, end) infinite;
+}
+@keyframes crt-glitch-band {
+  0%, 97%, 100% { opacity: 0; }
+  94% { opacity: 1; top: 28%; height: 4%; }
+  95% { opacity: 1; top: 63%; height: 7%; }
+  96% { opacity: 1; top: 41%; height: 2%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .md-typeset .crt__image,
+  .md-typeset .crt__image::after {
+    animation: none;
+  }
+}
+
+/* ================================================================
+   Сцена главной: кинескоп стоит на столе среди фишек.
+   Два слоя из tools/table_chips.py: задний — под корпусом, передний —
+   над ним. Слой шире кинескопа в 76/44 раза и выступает под ним на 20%
+   своей высоты: так его координаты совпадают с кинескопом при любой
+   ширине экрана
+   ================================================================ */
+.md-typeset .stage {
+  position: relative;
+  /* под кинескопом — ближний край стола с фишками: следующий раздел
+     начинается ниже него */
+  margin-bottom: 15rem;
+}
+.md-typeset .intro.crt {
+  z-index: 1;
+}
+.md-typeset .table-layer {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: calc(100% * 76 / 44);
+  max-width: none;
+  aspect-ratio: 1520 / 600;
+  transform: translate(-50%, 20%);
+  pointer-events: none;
+}
+.md-typeset .table-layer--back {
+  z-index: 0;
+}
+.md-typeset .table-layer--front {
+  z-index: 2;
+}
+/* россыпь шире колонки — горизонтальной прокрутки она не создаёт */
+.md-container {
+  overflow-x: clip;
 }

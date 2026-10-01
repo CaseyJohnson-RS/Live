@@ -76,12 +76,15 @@ markdown_extensions:
 
 nav:
   - Главная: index.md
-  - Правила:
+  - Блог: blog/index.md
+  - Как играть:
       - rules/index.md
       - rules/table.md
       - rules/shot.md
       - rules/round.md
+      - rules/chips.md
+      - rules/hand.md
       - rules/match.md
-      - Предметы: rules/items/index.md
+      - rules/cheatsheet.md
+      - rules/items/index.md
       - Глоссарий: rules/glossary.md
-  - Блог: blog/index.md

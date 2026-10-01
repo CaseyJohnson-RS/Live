@@ -12,15 +12,21 @@ hide:
 </filter>
 </svg>
 
+<div class="stage" markdown>
+
+<img class="table-layer table-layer--back" src="assets/table-back.svg" alt="" aria-hidden="true">
+
 <div class="intro crt" markdown>
 
 <div class="crt__image" markdown>
+
+<p class="status"><span class="status__dot" aria-hidden="true"></span>В разработке</p>
 
 <div class="hero" markdown>
 
 <div class="hero__logo"><span class="hero__rec" aria-hidden="true"></span><img src="logo.svg" alt="Live"></div>
 
-<p class="hero__tagline">Настольная игра по мотивам русской рулетки</p>
+<p class="hero__tagline">Игра по мотивам русской рулетки</p>
 
 </div>
 
@@ -36,20 +42,33 @@ hide:
 
 </div>
 
+<img class="table-layer table-layer--front" src="assets/table-front.svg" alt="" aria-hidden="true">
+
+</div>
+
+## Ставки пока не принимаются
+
+Зал ещё закрыт: движок в разработке, клиент — в планах. Но как здесь
+играют, можно узнать уже сейчас, а когда откроются двери — следить в
+блоге.
+
+[:octicons-arrow-right-24: Как играть](rules/index.md){ .md-button .md-button--primary }
+[:octicons-arrow-right-24: Открыть блог](blog/index.md){ .md-button }
+
 ## Проект
 
 <div class="grid cards project" markdown>
 
--   :material-book-open-variant:{ .lg } **Правила**
+-   :material-book-open-variant:{ .chip-emblem } **Как играть**
 
     ---
 
     Полный свод правил: читается по порядку, от первой главы до
     последней.
 
-    [:octicons-arrow-right-24: Читать правила](rules/index.md)
+    [:octicons-arrow-right-24: Читать](rules/index.md)
 
--   :material-engine-outline:{ .lg } **Движок**
+-   :material-engine-outline:{ .chip-emblem } **Движок**
 
     ---
 
@@ -59,7 +78,7 @@ hide:
     [:octicons-mark-github-16: LiveEngine](https://github.com/CaseyJohnson-RS/LiveEngine) ·
     [документация](https://caseyjohnson-rs.github.io/LiveEngine/)
 
--   :material-monitor-dashboard:{ .lg } **Клиент**
+-   :material-monitor-dashboard:{ .chip-emblem } **Клиент**
 
     ---
 
@@ -67,7 +86,7 @@ hide:
 
     *В планах*
 
--   :material-timeline-text-outline:{ .lg } **Блог**
+-   :material-timeline-text-outline:{ .chip-emblem } **Блог**
 
     ---
 

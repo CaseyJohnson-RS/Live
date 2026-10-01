@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140">
+  <!-- Фишка Live: бархатный корпус, хромовые вставки по кромке, неоновое
+       кольцо. Центр пустой — символ кладётся поверх -->
+  <circle cx="70" cy="70" r="62" fill="#10292a"/>
+  <circle cx="70" cy="70" r="56" fill="none" stroke="#c3ccd4" stroke-width="12" stroke-dasharray="22 21.98"/>
+  <circle cx="70" cy="70" r="62" fill="none" stroke="#1b3b3c" stroke-width="2"/>
+  <circle cx="70" cy="70" r="40" fill="#0a1c1c" stroke="#3ee8ff" stroke-width="2"/>
+  <circle cx="70" cy="70" r="34" fill="none" stroke="#3ee8ff" stroke-width="1" stroke-dasharray="3 4" opacity="0.6"/>
+</svg>
