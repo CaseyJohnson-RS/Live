@@ -272,6 +272,24 @@ body::after {
     radial-gradient(ellipse at 50% 45%, #12393b 0%, #0a2021 45%, #030909 100%);
   filter: url(#crt-barrel);
 }
+/* Включение монитора (класс crt-boot ставит скрипт на главной):
+   стекло тёмное → посередине вспыхивает линия → она раскрывается на весь
+   экран → пересвет оседает. В анимации фильтр изгиба указан вместе с
+   яркостью: filter — одно свойство, иначе экран на время стал бы плоским */
+.crt-boot .md-typeset .crt__image {
+  transform: scale(0, 0.004);
+}
+.crt-boot--go .md-typeset .crt__image {
+  /* пауза перед включением: стекло сначала постоит тёмным */
+  animation: crt-power-on 0.5s ease-out 0.5s both;
+}
+@keyframes crt-power-on {
+  0%   { transform: scale(0, 0.004);  filter: url(#crt-barrel) brightness(6); }
+  18%  { transform: scale(1, 0.004);  filter: url(#crt-barrel) brightness(6); }
+  45%  { transform: scale(1, 1);      filter: url(#crt-barrel) brightness(2.5); }
+  70%  { transform: scale(1, 1);      filter: url(#crt-barrel) brightness(1.3); }
+  100% { transform: none;             filter: url(#crt-barrel) brightness(1); }
+}
 /* Глубина: края стекла уходят в темноту — поверх изображения */
 .md-typeset .intro.crt::after {
   content: "";

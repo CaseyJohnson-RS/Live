@@ -5,6 +5,28 @@ hide:
   - footer
 ---
 
+<script>
+/* Монитор включается, когда главную открыли заново или перезагрузили.
+   Не включается при переходе с другой страницы сайта и по «Назад»: там
+   экран уже горит. И никогда — если посетитель отключил анимацию.
+   Стоит в начале страницы, чтобы включённый экран не мелькнул заранее */
+(function () {
+  try {
+    var nav = performance.getEntriesByType("navigation")[0];
+    var type = nav ? nav.type : "navigate";
+    var fromSite = false;
+    try {
+      fromSite = !!document.referrer &&
+        new URL(document.referrer).origin === location.origin;
+    } catch (e) {}
+    var boot = type === "reload" || (type === "navigate" && !fromSite);
+    if (boot && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("crt-boot");
+    }
+  } catch (e) {}
+})();
+</script>
+
 <svg class="crt__defs" aria-hidden="true">
 <filter id="crt-barrel" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
 <feImage href="assets/crt/barrel-map.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="map"/>
@@ -129,3 +151,29 @@ hide:
 </figure>
 
 </div>
+
+<script>
+/* Включение стартует, когда страница загрузилась (шрифты, логотип),
+   но не позже чем через 2,5 с. После — экран в обычном режиме */
+(function () {
+  var root = document.documentElement;
+  if (!root.classList.contains("crt-boot")) return;
+  var started = false;
+  function powerOn() {
+    if (started) return;
+    started = true;
+    root.classList.add("crt-boot--go");
+  }
+  var screen = document.querySelector(".crt__image");
+  if (screen) {
+    screen.addEventListener("animationend", function (e) {
+      if (e.animationName === "crt-power-on") {
+        root.classList.remove("crt-boot", "crt-boot--go");
+      }
+    });
+  }
+  if (document.readyState === "complete") powerOn();
+  else window.addEventListener("load", powerOn);
+  setTimeout(powerOn, 2500);
+})();
+</script>
