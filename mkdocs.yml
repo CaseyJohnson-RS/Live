@@ -15,7 +15,7 @@ theme:
     code: IBM Plex Mono
   logo: logo.svg
   favicon: favicon.svg
-  # Только тёмная схема: палитра «Бутылочное стекло» — в stylesheets/extra.css
+  # Только тёмная схема: палитра «Бутылочное стекло» — в stylesheets/palette.css
   # custom — чтобы встроенные цвета Material не перебивали наши роли
   palette:
     scheme: slate
@@ -45,8 +45,14 @@ extra:
       link: mailto:casey.johnson.r@yandex.ru
       name: casey.johnson.r@yandex.ru
 
+# Порядок важен: при равной специфичности побеждает то, что подключено позже
 extra_css:
-  - stylesheets/extra.css
+  - stylesheets/palette.css
+  - stylesheets/base.css
+  - stylesheets/cards.css
+  - stylesheets/home.css
+  - stylesheets/blog.css
+  - stylesheets/rules.css
 
 plugins:
   - search:
@@ -68,6 +74,10 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      # свои иконки: overrides/.icons/live/*.svg → :live-имя:
+      options:
+        custom_icons:
+          - overrides/.icons
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -77,14 +87,16 @@ markdown_extensions:
 nav:
   - Главная: index.md
   - Блог: blog/index.md
-  - Как играть:
-      - rules/index.md
-      - rules/table.md
-      - rules/shot.md
-      - rules/round.md
-      - rules/chips.md
-      - rules/hand.md
-      - rules/match.md
-      - rules/cheatsheet.md
-      - rules/items/index.md
-      - Глоссарий: rules/glossary.md
+  - Об игре:
+      - about/index.md
+      - Правила:
+          - about/rules/index.md
+          - about/rules/table.md
+          - about/rules/shot.md
+          - about/rules/spread.md
+          - about/rules/chips.md
+          - about/rules/hand.md
+          - about/rules/round.md
+          - about/rules/cheatsheet.md
+      - about/items/index.md
+      - Глоссарий: about/glossary.md

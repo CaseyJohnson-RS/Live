@@ -1,0 +1,291 @@
+/* Раздел «Об игре»: элементы для чтения и глоссарий */
+
+/* ================================================================
+   Правила: элементы для чтения
+   ================================================================ */
+
+/* Эпиграф главы — голос тизера с главной, вполголоса */
+.md-typeset .epigraph {
+  margin: -0.6rem 0 2rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--c-accent-2);
+  border-radius: 0;
+  color: var(--c-text-2);
+  font-style: italic;
+}
+
+/* Совет — ультрафиолетом: подсказка игроку, не правило */
+.md-typeset .admonition.tip,
+.md-typeset details.tip {
+  border-color: var(--c-accent-2);
+}
+.md-typeset .tip > .admonition-title,
+.md-typeset .tip > summary {
+  background-color: rgb(var(--c-accent-2-rgb) / 0.1);
+}
+.md-typeset .tip > .admonition-title::before,
+.md-typeset .tip > summary::before {
+  background-color: var(--c-accent-2);
+}
+
+/* Иллюстрация для настроения. Пока картинки нет — экран «нет сигнала»:
+     <figure class="illus"><div class="illus__empty"></div><figcaption>…</figcaption></figure>
+   Картинка появилась — вместо div ставится <img src="…" alt="…"> */
+/* у Material figure — flex по ширине содержимого и по центру; нам нужна
+   полная ширина колонки */
+.md-typeset figure.illus {
+  display: block;
+  width: 100%;
+  margin: 2rem 0;
+  max-width: none;
+}
+.md-typeset .illus img,
+.md-typeset .illus__empty {
+  display: block;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  border: 1px solid var(--c-border);
+  border-radius: 0.2rem;
+}
+/* Заглушка — маленький кинескоп: те же развёртка и глитч, что на главной.
+   Полоса помех — верхний слой фона: в обычных кадрах он спрятан над
+   экраном, в кадрах сбоя выезжает на новую высоту (второго псевдоэлемента
+   нет — ::after занят надписью) */
+.md-typeset .illus__empty {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--c-accent-rgb) / 0.14),
+      rgb(var(--c-accent-2-rgb) / 0.2),
+      transparent
+    ),
+    repeating-linear-gradient(to bottom, transparent 0 2px, rgb(0 0 0 / 0.3) 2px 3px),
+    radial-gradient(ellipse at center, #0f2e2f 0%, #061213 70%);
+  background-repeat: no-repeat, repeat, no-repeat;
+  background-size: 100% 4%, auto, auto;
+  background-position: 0 -50%, 0 0, center;
+  box-shadow: inset 0 0 3rem rgb(0 0 0 / 0.7);
+  animation: illus-glitch 7s steps(1, end) infinite;
+}
+/* Полоса развёртки — как на главной (кадры crt-roll из home.css) */
+.md-typeset .illus__empty::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(var(--c-accent-rgb) / 0.04),
+    transparent
+  );
+  animation: crt-roll 6s linear infinite;
+}
+/* Кадры глитча главной без фильтра изгиба: его здесь нет, а ссылка на
+   несуществующий фильтр ломает отрисовку */
+@keyframes illus-glitch {
+  0%, 40%, 41%, 93%, 97%, 100% {
+    transform: none;
+    filter: none;
+    background-size: 100% 4%, auto, auto;
+    background-position: 0 -50%, 0 0, center;
+  }
+  40.5% {
+    transform: translateX(2px);
+    filter: none;
+  }
+  94% {
+    transform: translateX(-4px) skewX(-1.5deg);
+    filter:
+      drop-shadow(2px 0 rgb(var(--c-accent-2-rgb) / 0.6))
+      drop-shadow(-2px 0 rgb(var(--c-accent-rgb) / 0.6));
+    background-size: 100% 4%, auto, auto;
+    background-position: 0 28%, 0 0, center;
+  }
+  95% {
+    transform: translateX(3px);
+    filter:
+      drop-shadow(-3px 0 rgb(var(--c-accent-2-rgb) / 0.5))
+      drop-shadow(3px 0 rgb(var(--c-accent-rgb) / 0.5));
+    background-size: 100% 7%, auto, auto;
+    background-position: 0 63%, 0 0, center;
+  }
+  96% {
+    transform: translateX(-1px) skewX(1deg);
+    filter:
+      drop-shadow(1px 0 rgb(var(--c-accent-2-rgb) / 0.6))
+      drop-shadow(-1px 0 rgb(var(--c-accent-rgb) / 0.6));
+    background-size: 100% 2%, auto, auto;
+    background-position: 0 41%, 0 0, center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .md-typeset .illus__empty,
+  .md-typeset .illus__empty::before {
+    animation: none;
+  }
+}
+.md-typeset .illus__empty::after {
+  content: "нет сигнала";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-text-3);
+  font-family: var(--md-code-font-family);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.md-typeset .illus figcaption {
+  max-width: none;
+  margin-top: 0.5rem;
+  color: var(--c-text-3);
+  font-size: 0.65rem;
+  font-style: normal;
+  text-align: left;
+}
+
+/* Каморный ряд на схеме: кружки-каморы, номер места — под каморой,
+   вес — над ней (data-w), номер — data-n */
+.md-typeset .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.6rem 0.6rem;
+  margin: 1.5rem 0 0.4rem;
+  padding: 1.6rem 1rem 1.8rem;
+  border: 1px solid var(--c-border);
+  border-radius: 0.2rem;
+  background-color: rgb(10 28 28 / 0.6);
+}
+.md-typeset .row--weights {
+  padding-top: 2.4rem;
+}
+.md-typeset .ch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 2px solid var(--c-text-2);
+  border-radius: 50%;
+  color: var(--c-text-2);
+  font-family: var(--md-code-font-family);
+  font-size: 0.75rem;
+}
+.md-typeset .ch::after {
+  content: attr(data-n);
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  color: var(--c-text-3);
+  font-size: 0.55rem;
+}
+.md-typeset .ch[data-w]::before {
+  content: "×" attr(data-w);
+  position: absolute;
+  bottom: calc(100% + 0.35rem);
+  color: var(--c-accent);
+  font-size: 0.6rem;
+  text-shadow: 0 0 6px rgb(var(--c-accent-rgb) / 0.6);
+}
+/* отстреляна, была пустой */
+.md-typeset .ch--blank {
+  border-style: dashed;
+  border-color: var(--c-text-3);
+  color: var(--c-text-3);
+}
+/* отстреляна, был патрон */
+.md-typeset .ch--hit {
+  border-color: var(--c-danger);
+  background-color: rgb(var(--c-danger-rgb) / 0.15);
+  color: var(--c-danger);
+  box-shadow: 0 0 10px rgb(var(--c-danger-rgb) / 0.4);
+}
+/* камора, о которой идёт речь */
+.md-typeset .ch--focus {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  box-shadow: 0 0 10px rgb(var(--c-accent-rgb) / 0.4);
+}
+.md-typeset .row__caption {
+  margin: 0 0 1.5rem;
+  color: var(--c-text-3);
+  font-size: 0.65rem;
+  text-align: center;
+}
+
+/* Класс предмета — метка цветом класса */
+.md-typeset .cls {
+  display: inline-block;
+  padding: 0.05rem 0.45rem;
+  border: 1px solid currentColor;
+  border-radius: 0.2rem;
+  font-family: var(--md-code-font-family);
+  font-size: 0.55rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.md-typeset .cls--common { color: var(--c-item-common); }
+.md-typeset .cls--rare { color: var(--c-item-rare); }
+.md-typeset .cls--ceiling {
+  color: var(--c-item-ceiling);
+  text-shadow: 0 0 6px rgb(var(--c-accent-2-rgb) / 0.6);
+}
+/* в заголовках метка не должна наследовать неон заголовка */
+.md-typeset h3 .cls {
+  margin-left: 0.4rem;
+  text-shadow: none;
+}
+
+/* Устройство игры: вложенные рамки — игра ⊃ раунд ⊃ расклад ⊃ ход */
+.md-typeset .nest {
+  margin: 1.5rem 0;
+}
+.md-typeset .nest__box {
+  padding: 0.8rem 1rem 1rem;
+  border: 1px solid var(--c-border);
+  border-radius: 0.2rem;
+  background-color: rgb(10 28 28 / 0.55);
+}
+.md-typeset .nest__box .nest__box {
+  margin-top: 0.8rem;
+}
+.md-typeset .nest__name {
+  display: block;
+  color: var(--c-accent);
+  font-family: var(--heading-font);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.md-typeset .nest__text {
+  display: block;
+  color: var(--c-text-2);
+  font-size: 0.7rem;
+}
+
+/* Название, где регистр — часть шутки (ХАХхаахХАх), не приводим к заглавным */
+.md-typeset .keep-case {
+  text-transform: none;
+}
+
+/* Глоссарий: определение прижато к термину, между терминами — зазор */
+.md-typeset dl dt {
+  margin-top: 1.2em;
+}
+.md-typeset dl dd {
+  margin-top: 0.2em;
+  margin-bottom: 0;
+}

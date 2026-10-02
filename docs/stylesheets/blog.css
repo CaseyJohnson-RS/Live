@@ -1,0 +1,76 @@
+/* Блог: хронология */
+
+/* ================================================================
+   Хронология блога: пройденное — металл, текущее — неон, будущее — тень
+   ================================================================ */
+
+/* Страница блога уже остальных: боковых панелей нет, строки не должны
+   растягиваться на весь экран */
+.md-content:has(.timeline) {
+  max-width: 46rem;
+  margin: 0 auto;
+}
+.md-typeset .timeline {
+  list-style: none;
+  margin: 2rem 0 3rem;
+  padding: 0;
+  border-left: 2px solid var(--c-border);
+}
+/* Селектор сильнее, чем у Material ([dir=ltr] .md-typeset ol li):
+   иначе его отступ пунктов списка сдвигает точки с линии */
+.md-typeset ol.timeline > li.timeline__item {
+  position: relative;
+  margin: 0 0 1.6rem;
+  padding-left: 1.6rem;
+}
+/* Точка ровно на линии: центр на середине 2px-рамки */
+.md-typeset .timeline__item::before {
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+  left: calc(-0.35rem - 1px);
+  top: 0.3rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--c-bg);
+  border: 2px solid var(--c-text-3);
+}
+.md-typeset .timeline__date,
+.md-typeset .timeline__title,
+.md-typeset .timeline__text {
+  display: block;
+}
+.md-typeset .timeline__date {
+  font-family: var(--md-code-font-family);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-3);
+}
+.md-typeset .timeline__title {
+  font-weight: 700;
+  color: var(--c-text-2);
+}
+.md-typeset .timeline__text {
+  color: var(--c-text-3);
+}
+
+.md-typeset .timeline__item--done::before {
+  background: var(--c-metal);
+  border-color: var(--c-metal);
+}
+.md-typeset .timeline__item--done .timeline__title { color: var(--c-text); }
+.md-typeset .timeline__item--done .timeline__text { color: var(--c-text-2); }
+
+.md-typeset .timeline__item--now::before {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  box-shadow: 0 0 10px rgb(var(--c-accent-rgb) / 0.8);
+}
+.md-typeset .timeline__item--now .timeline__date,
+.md-typeset .timeline__item--now .timeline__title {
+  color: var(--c-accent);
+  text-shadow: 0 0 8px rgb(var(--c-accent-rgb) / 0.5);
+}
+.md-typeset .timeline__item--now .timeline__text { color: var(--c-text); }

@@ -1,0 +1,46 @@
+/* Карточки и фишки-эмблемы; сетка «Проекта» на главной */
+
+/* ================================================================
+   Карточки: столы под лампой
+   ================================================================ */
+.md-typeset .grid.cards > ul > li {
+  background-color: rgb(10 28 28 / 0.7);
+  border: 1px solid var(--c-border);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 16px rgb(var(--c-accent-rgb) / 0.2);
+}
+.md-typeset .grid.cards hr {
+  border-color: var(--c-border);
+}
+/* Эмблема карточки — фишка Live, в центре иконка цветом экрана */
+.md-typeset .grid.cards .chip-emblem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6em;
+  height: 3.6em;
+  margin-right: 0.7em;
+  vertical-align: middle;
+  background: url("../assets/chip.svg") center / contain no-repeat;
+  color: var(--c-accent);
+  filter: drop-shadow(0 0 6px rgb(var(--c-accent-rgb) / 0.3));
+}
+.md-typeset .grid.cards .chip-emblem svg {
+  width: 1.45em;
+  height: 1.45em;
+  max-height: none;
+  filter: drop-shadow(0 0 3px rgb(var(--c-accent-rgb) / 0.7));
+}
+
+/* «Проект» — четыре карточки сеткой 2×2, на узком экране — столбиком */
+.md-typeset .grid.cards.project {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .grid.cards.project {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

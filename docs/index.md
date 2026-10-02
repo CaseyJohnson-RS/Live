@@ -70,32 +70,30 @@ hide:
 
 ## Ставки пока не принимаются
 
-Зал ещё закрыт: движок в разработке, клиент — в планах. Но как здесь
-играют, можно узнать уже сейчас, а когда откроются двери — следить в
-блоге.
+Зал ещё закрыт.
 
-[:octicons-arrow-right-24: Как играть](rules/index.md){ .md-button .md-button--primary }
+Движок в разработке, клиент — в планах. Но что это за игра можно узнать уже сейчас, а когда откроются двери — следить в блоге.
+
+[:octicons-arrow-right-24: Об игре](about/index.md){ .md-button .md-button--primary }
 [:octicons-arrow-right-24: Открыть блог](blog/index.md){ .md-button }
 
 ## Проект
 
 <div class="grid cards project" markdown>
 
--   :material-book-open-variant:{ .chip-emblem } **Как играть**
+-   :live-cartridge:{ .chip-emblem } **Об игре**
 
     ---
 
-    Полный свод правил: читается по порядку, от первой главы до
-    последней.
+    Описание игры, иллюстрации, правила.
 
-    [:octicons-arrow-right-24: Читать](rules/index.md)
+    [:octicons-arrow-right-24: Читать](about/index.md)
 
 -   :material-engine-outline:{ .chip-emblem } **Движок**
 
     ---
 
-    Сервер игры на Python: держит партию и честно применяет правила.
-    Клиенты подключаются к нему по WebSocket.
+    Логический движок игры, который будет держать игру и контролировать выполнения правил. В данный момент разрабатывается.
 
     [:octicons-mark-github-16: LiveEngine](https://github.com/CaseyJohnson-RS/LiveEngine) ·
     [документация](https://caseyjohnson-rs.github.io/LiveEngine/)
@@ -104,7 +102,7 @@ hide:
 
     ---
 
-    Приложение, за которым сидит игрок: стол, ряд, предметы.
+    Сама игра. Возможно, здесь будет ссылка на стим или Itch.io в будущем.
 
     *В планах*
 
@@ -112,14 +110,14 @@ hide:
 
     ---
 
-    Как проект движется от идеи к столу, за которым можно сыграть:
+    Как проект движется от идеи к релизу:
     хронология и рассказы о вехах.
 
     [:octicons-arrow-right-24: Открыть блог](blog/index.md)
 
 </div>
 
-## Корни
+## Вдохновение и истоки
 
 <div class="roots">
 
@@ -176,4 +174,14 @@ hide:
   else window.addEventListener("load", powerOn);
   setTimeout(powerOn, 2500);
 })();
+
+/* При уходе со страницы монитор гаснет. Пока грузится следующая страница
+   (и при перезагрузке), браузер держит последний кадр старой — пусть на
+   нём будет тёмное стекло, а не горящий экран. Если ухода не случилось
+   (например, клик по ссылке на почту), через 1,5 с экран загорается снова */
+window.addEventListener("beforeunload", function () {
+  var root = document.documentElement;
+  root.classList.add("crt-off");
+  setTimeout(function () { root.classList.remove("crt-off"); }, 1500);
+});
 </script>

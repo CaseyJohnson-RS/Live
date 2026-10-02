@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&display=swap");
+
+/* Палитра «Бутылочное стекло» и роли цветов. Подключается первой:
+   остальные файлы ссылаются только на роли (--c-*) */
+
+/* ================================================================
+   Палитра «Бутылочное стекло»
+   Мрачное казино — фон и материалы: бутылочный бархат, хром.
+   Ретрофутуризм — свет: cyan-экран, ультрафиолет.
+   Красный — только кровь: попадание и индикатор записи.
+
+   Сырые цвета ниже используются только для назначения ролей;
+   оформление ссылается на роли (--c-*).
+   ================================================================ */
+:root {
+  /* Бархат: от фона к поверхностям */
+  --velvet-900: #050f0f;
+  --velvet-800: #0a1c1c;
+  --velvet-700: #10292a;
+  --velvet-600: #1b3b3c;
+
+  /* Холодный текст */
+  --frost: #e3eef0;
+  --steel: #93aab0;
+  --steel-dim: #62797f;
+
+  /* Свет и металл. RGB-тройки — для полупрозрачного свечения */
+  --cyan: #3ee8ff;
+  --cyan-rgb: 62 232 255;
+  --uv: #a98bff;
+  --uv-rgb: 169 139 255;
+  --chrome: #c3ccd4;
+  --blood: #ff3355;
+  --blood-rgb: 255 51 85;
+
+  /* ---------- Роли ---------- */
+  --c-bg: var(--velvet-900);
+  --c-surface: var(--velvet-800);
+  --c-surface-2: var(--velvet-700);
+  --c-border: var(--velvet-600);
+
+  --c-text: var(--frost);
+  --c-text-2: var(--steel);
+  --c-text-3: var(--steel-dim); /* только рамки и мелочь: для текста контраста мало */
+
+  --c-accent: var(--cyan);         /* экран: h1, ссылки, линии шапки */
+  --c-accent-rgb: var(--cyan-rgb);
+  --c-accent-2: var(--uv);         /* ультрафиолет: h3, наведение */
+  --c-accent-2-rgb: var(--uv-rgb);
+  --c-metal: var(--chrome);
+  --c-danger: var(--blood);
+  --c-danger-rgb: var(--blood-rgb);
+
+  /* ---------- Игровые сущности (черновик — уточнится с правилами) ---------- */
+  --c-hit: var(--blood);
+  --c-item-common: var(--steel);
+  --c-item-rare: var(--chrome);
+  --c-item-ceiling: var(--uv);
+
+  /* Без var(--md-text-font-family): на :root её ещё нет, и ссылка на неё
+     сделала бы всё значение недействительным */
+  --heading-font: "Unbounded", "Exo 2", sans-serif;
+}
+
+/* ================================================================
+   Роли → переменные Material
+   ================================================================ */
+[data-md-color-scheme="slate"] {
+  --md-hue: 185;
+  --md-primary-fg-color: var(--c-bg);
+  --md-primary-fg-color--light: var(--c-surface);
+  --md-primary-fg-color--dark: var(--c-bg);
+  --md-primary-bg-color: var(--c-text);
+  --md-primary-bg-color--light: var(--c-text-2);
+  --md-accent-fg-color: var(--c-accent-2);
+
+  --md-default-bg-color: var(--c-bg);
+  --md-default-fg-color: var(--c-text);
+  --md-default-fg-color--light: var(--c-text-2);
+  --md-default-fg-color--lighter: var(--c-text-3);
+  --md-default-fg-color--lightest: var(--c-border);
+
+  --md-typeset-a-color: var(--c-accent);
+  --md-code-bg-color: var(--c-surface);
+  --md-code-fg-color: var(--c-text);
+  --md-typeset-table-color: var(--c-border);
+
+  --md-footer-bg-color: var(--c-surface);
+  --md-footer-bg-color--dark: var(--c-bg);
+
+  --md-mermaid-font-family: var(--md-text-font-family);
+  --md-mermaid-node-bg-color: var(--c-surface-2);
+  --md-mermaid-node-fg-color: var(--c-text);
+  --md-mermaid-edge-color: var(--c-accent);
+  --md-mermaid-label-bg-color: var(--c-bg);
+  --md-mermaid-label-fg-color: var(--c-accent);
+}
